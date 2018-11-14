@@ -1,0 +1,17 @@
+import os, sys, ldap3
+from ldap3 import Connection, Server, ALL
+
+# Requires:
+# myLdapHost (URL of LDAP host:  ldaps://myCatalogHost.myDomain.com)
+# myLdapPort (port use to connect...usually 636 for LdapS)
+# myBindDn (full DN of an account in your domain, used to access the domain structure)
+# myBindPw (password for binding DN)
+
+try:
+    myLdapServer = Server(myLdapHost, port=myLdapPort, use_ssl=True, get_info=ALL)
+    myLdapConn = Connection(myLdapServer, myBindDn, myBindPw, auto_bind=True)
+    myLdapConn.bind()
+    print('=== SUCCESSFULLY CONNECTED TO LDAP ===')
+except:
+    print('=== NOT CONNECTED TO LDAP ===')
+    
