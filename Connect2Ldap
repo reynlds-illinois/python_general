@@ -1,17 +1,18 @@
-import os, sys, ldap3
-from ldap3 import Connection, Server, ALL
+#---------------------------------------------------------
+# Facilitates connection to an LDAP directory or Microsoft
+# Active Directory.
+# Requires:   ldap3, from ldap3: Server, Connection, ALL
+#             all variables a defined below
+#---------------------------------------------------------
 
-# Requires:
-# myLdapHost (URL of LDAP host:  ldaps://myCatalogHost.myDomain.com)
-# myLdapPort (port use to connect...usually 636 for LdapS)
-# myBindDn (full DN of an account in your domain, used to access the domain structure)
-# myBindPw (password for binding DN)
+def bind2Ldap(myLdapHost, myLdapBindDn, myLdapBindPw):
+    global myLdapConn
+    try:
+        myLdapServer = Server(myLdapHost, port=636, use_ssl=True, get_info=ALL)
+        myLdapConn = Connection(myLdapServer, myLdapBindDn, myLdapBindPw, auto_bind=True)
+        print('=== SUCCESSFULLY CONNECTED TO LDAP ===')
+        return myLdapConn
+    except:
+        print('=== NOT CONNECTED TO LDAP ===')
+        return myLdapConn
 
-try:
-    myLdapServer = Server(myLdapHost, port=myLdapPort, use_ssl=True, get_info=ALL)
-    myLdapConn = Connection(myLdapServer, myBindDn, myBindPw, auto_bind=True)
-    myLdapConn.bind()
-    print('=== SUCCESSFULLY CONNECTED TO LDAP ===')
-except:
-    print('=== NOT CONNECTED TO LDAP ===')
-    
