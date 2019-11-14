@@ -29,8 +29,7 @@
 
 import os, sys
 sys.path.insert(1, '/services/ic-tools/bin')
-import json, pymssql, pyodbc, sqlalchemy, base64, zipfile
-#import json, pymssql, base64, zipfile
+import json, pymssql, base64, zipfile
 from PIL import Image
 from pymssql import *
 from zipfile import *
