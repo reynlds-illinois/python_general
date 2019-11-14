@@ -48,7 +48,7 @@ feederFile = input('Enter the name of the feeder:  ')
 sourceFile = '/services/ic-tools/iCard/' + feederFile
 
 # define a zip file for image archive...this will be sent to hosting provider
-zipFilePath = '/services/ic-tools/iCard/' + feederFile
+zipFilePath = '/services/ic-tools/iCard/' + feederFile + 'zip'
 zipFile = zipfile.ZipFile('/services/ic-tools/iCard/' + feederFile, 'a')
 
 # this is the SQL statement that will be executed
