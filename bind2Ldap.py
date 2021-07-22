@@ -1,18 +1,14 @@
-#---------------------------------------------------------
-# Facilitates connection to an LDAP directory or Microsoft
-# Active Directory.
-# Requires:   ldap3, from ldap3: Server, Connection, ALL
-#             all variables a defined below
-#---------------------------------------------------------
+#----------------------------------------------------------------------------
+# Facilitates connection to an LDAP directory or Microsoft Active Directory.
+#----------------------------------------------------------------------------
 
-def bind2Ldap(myLdapHost, myLdapBindDn, myLdapBindPw):
-    global myLdapConn
+def bind2Ldap(ldapHost, ldapBindDn, ldapBindPw):
+    '''bind to a directory service like Active Directory or LDAP'''
+    import ldap3
+    from ldap3 import Server, Connection, ALL
     try:
-        myLdapServer = Server(myLdapHost, port=636, use_ssl=True, get_info=ALL)
-        myLdapConn = Connection(myLdapServer, myLdapBindDn, myLdapBindPw, auto_bind=True)
-        print('=== SUCCESSFULLY CONNECTED TO LDAP ===')
-        return myLdapConn
+        ldapServer = Server(ldapHost, port=636, use_ssl=True, get_info=ALL)
+        ldapConn = Connection(ldapServer, ldapBindDn, ldapBindPw, auto_bind=True)
+        return ldapConn
     except:
-        print('=== NOT CONNECTED TO LDAP ===')
-        return myLdapConn
-
+        return False
