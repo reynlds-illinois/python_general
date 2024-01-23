@@ -1,0 +1,60 @@
+def canvasJsonDates(jsonObj):
+    '''walks through a json object and converts the dates to US Central'''
+    import pytz
+    from datetime import datetime
+    if isinstance(jsonObj, dict):
+        for key, value in jsonObj.items():
+            if isinstance(value, dict):
+                canvasJsonDates(value)
+            elif isinstance(value, list):
+                for item in value:
+                    if isinstance(item, dict):
+                        canvasJsonDates(item)
+                    else:
+                        continue
+            else:
+                if isinstance(value, str):
+                    try:
+                        UTCvalue = datetime.strptime(value, '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=pytz.UTC)
+                        centralValue = UTCvalue.astimezone(pytz.timezone('US/Central')).strftime('%Y-%m-%d %H:%M:%S')
+                        jsonObj.update({key:centralValue})
+                    except ValueError:
+                        pass
+                    try:
+                        datetime.strptime(value, '%Y-%m-%dT%H:%M:%S%z')
+                        value = datetime.fromisoformat(value)
+                        centralValue = value.astimezone(pytz.timezone('US/Central')).strftime('%Y-%m-%d %H:%M:%S')
+                        jsonObj.update({key:centralValue})
+                    except ValueError:
+                        pass
+                else:
+                    continue
+    elif isinstance(jsonObj, list):
+        for item in jsonObj:
+            #for key, value in jsonObj.items():
+            if isinstance(item, dict):
+                canvasJsonDates(item)
+            elif isinstance(item, list):
+                for item in value:
+                    if isinstance(item, dict):
+                        canvasJsonDates(item)
+                    else:
+                        continue
+            else:
+                if isinstance(value, str):
+                    try:
+                        UTCvalue = datetime.strptime(value, '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=pytz.UTC)
+                        centralValue = UTCvalue.astimezone(pytz.timezone('US/Central')).strftime('%Y-%m-%d %H:%M:%S')
+                        jsonObj.update({key:centralValue})
+                    except ValueError:
+                        pass
+                    try:
+                        datetime.strptime(value, '%Y-%m-%dT%H:%M:%S%z')
+                        value = datetime.fromisoformat(value)
+                        centralValue = value.astimezone(pytz.timezone('US/Central')).strftime('%Y-%m-%d %H:%M:%S')
+                        jsonObj.update({key:centralValue})
+                    except ValueError:
+                        pass
+                else:
+                    continue
+    return jsonObj
